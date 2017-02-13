@@ -1,0 +1,25 @@
+.Inspector {
+	position: fixed;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #fff;
+	padding: 10px;
+	border-left: 1px solid #eee;
+	width: 200px;
+}
+
+.Inspector.hidden {
+	display: none;
+}
+
+.Inspector__hide {
+	/*text-decoration: underline;*/
+	float: right;
+	cursor: pointer;
+	font-style: italic;
+}
+
+.Inspector__hide:hover {
+	text-decoration: underline;
+}

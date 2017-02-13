@@ -1,0 +1,37 @@
+.ElementsList {
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	overflow-y: auto;
+	width: 179px;
+	border-right: 1px solid #eee;
+	padding: 10px;
+}
+
+.ElementsList__category {
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 22px;
+}
+
+.ElementsList__element {
+	font-size: 12px;
+}
+
+.ElementsList__element:hover, .ElementsList__element_hovered {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.ElementsList__element ul {
+	margin: 0;
+	margin-bottom: 6px;
+	list-style-type: none;
+	padding: 0;
+	padding-left: 10px;
+}
+
+.ElementsList__element ul .label {
+	font-style: italic;
+}
