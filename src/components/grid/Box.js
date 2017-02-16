@@ -45,6 +45,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+// Represent every "box" of the grid.
 const Box = createClass({
 	componentDidUpdate() {
 		if (temporaryNode !== null) {
@@ -56,6 +57,10 @@ const Box = createClass({
 		}
 	},
 
+	/**
+	 * Handle when the box is hovered.
+	 * @param {Event} event - Event instance.
+	 */
 	handleHovering(event) {
 		const mouseEvent = event.evt
 		let {offsetX, offsetY} = mouseEvent
@@ -138,6 +143,7 @@ const Box = createClass({
 			<Group>
 				{(x < columns.length) ? (
 					<Text
+						// Column's name
 						text={columns[x].getName()}
 						offsetY={(NODE_CIRCLE_RADIUS / 2 + 15)}
 						offsetX={NODE_CIRCLE_RADIUS / 2}
@@ -169,6 +175,7 @@ const Box = createClass({
 				/>
 
 				<Rect
+					// Hovering zone only (as we don't want four sides/lines but only two)
 					x={x * side}
 					y={y * side}
 					width={side}

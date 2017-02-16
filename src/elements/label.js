@@ -5,13 +5,17 @@ class Label {
 	/**
 	 * Create a label.
 	 * @param {number} id - Label ID.
-	 * @param {string} name - Label name.
+	 * @param {String} name - Label name.
 	 */
 	constructor(id, name) {
 		this.id = id
 		this.name = name
 	}
 
+	/**
+	 * Set the label's name.
+	 * @param {String} name - New label's name.
+	 */
 	setName(name) {
 		this.name = name
 	}

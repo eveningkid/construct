@@ -1,3 +1,7 @@
+/**
+ * List of actions' names that can be dispatched using redux.
+ */
+
 export const ADD_NODE = 'ADD_NODE'
 export const EDIT_NODE = 'EDIT_NODE'
 export const REMOVE_NODE = 'REMOVE_NODE'

@@ -19,7 +19,11 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+// Represent the inspector (to inspect selected elements).
 const Inspector = createClass({
+	/**
+	 * Hide the inspector.
+	 */
 	hideInspector() {
 		this.props.setInspectorCurrentElement(null)
 	},
@@ -31,6 +35,7 @@ const Inspector = createClass({
 		if (element) {
 			const className = element.constructor.name
 
+			// Look for the corresponding form.
 			switch (className) {
 				case 'Node':
 					component = <InspectorNodeForm node={element} />

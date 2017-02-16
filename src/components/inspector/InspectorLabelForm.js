@@ -23,7 +23,12 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+// Represent the inspector's label form (when a label is inspected).
 const InspectorLabelForm = createClass({
+	/**
+	 * Handle each label's name modification.
+	 * @param {Event} event - Event instance.
+	 */
 	handleChange(event) {
 		let {label, labels} = this.props
 
@@ -35,6 +40,10 @@ const InspectorLabelForm = createClass({
 		this.props.editLabel(labelOriginalIndex, label)
 	},
 
+	/**
+	 * Handle when the given label is removed.
+	 * @param {Event} event - Event instance.
+	 */ 
 	handleRemoveLabel(event) {
 		const {label, nodes} = this.props
 		const relatedNodes = nodes.filter((node) => node.getLabels().indexOf(label.id) !== -1)

@@ -5,17 +5,25 @@ class Column {
 	/**
 	 * Create a column.
 	 * @param {number} id - Column ID.
-	 * @param {string} name - Column name.
+	 * @param {String} name - Column name.
 	 */
 	constructor(id, name) {
 		this.id = id
 		this.name = name
 	}
 
+	/**
+	 * Get the column's name.
+	 * @return {String}
+	 */
 	getName() {
 		return this.name
 	}
 
+	/**
+	 * Set the column's name.
+	 * @param {String} name - New column's name.
+	 */
 	setName(name) {
 		this.name = name
 	}

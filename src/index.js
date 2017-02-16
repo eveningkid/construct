@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Application} from './App'
-import './index.css'
-
 import {Provider} from 'react-redux'
 import {createStore} from 'redux'
+import Application from './App'
 import app from './reducers'
+import './index.css'
 
 const store = createStore(app)
 

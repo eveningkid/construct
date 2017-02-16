@@ -4,13 +4,12 @@ import classNames from 'classnames'
 import _ from 'underscore'
 // import Dragula from 'react-dragula'
 import {setInspectorCurrentElement} from '../../actions'
+import './ElementsList.css'
 
 import {
 	getNameForConnectionElement,
 	findElement,
 } from '../../utils'
-
-import './ElementsList.css'
 
 const mapStateToProps = (state) => {
 	return {
@@ -27,6 +26,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+// Represent a list of all the created elements on the graph.
 const ElementsList = createClass({
 	// dragulaDecorator(componentBackingInstance) {
 	// 	if (componentBackingInstance) {

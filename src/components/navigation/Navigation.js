@@ -1,9 +1,9 @@
-import React, {createClass} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import classNames from 'classnames'
 import uniqid from 'uniqid'
-
 import {Label} from '../../elements'
+import './Navigation.css'
 
 import {
 	setEditorCurrentAction,
@@ -20,8 +20,6 @@ import {
 	// EDITOR_ACTION_IMPORT,
 } from '../../constants'
 
-import './Navigation.css'
-
 const mapStateToProps = (state) => {
 	return {
 		editor: state.editor,
@@ -36,60 +34,60 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const Navigation = createClass({
-	render() {
-		const {currentAction} = this.props.editor
-		const {
-			addLabel, 
-			setEditorCurrentAction,
-			setInspectorCurrentElement
-		} = this.props
+// Represent the top navigation element.
+const Navigation = (props) => {
+	const {currentAction} = props.editor
 
-		const options = [
-			{
-				name: 'Inspect', 
-				value: EDITOR_ACTION_INSPECT
-			},
-			{
-				name: 'Add node', 
-				value: EDITOR_ACTION_ADD_NODE
-			},
-			{
-				name: 'Add connection',
-				value: EDITOR_ACTION_ADD_CONNECTION
-			},
-			{
-				name: 'Add label', 
-				value: EDITOR_ACTION_ADD_LABEL, 
-				cb: () => {
-					const newLabel = new Label(uniqid(), 'LAB')
+	const {
+		addLabel, 
+		setEditorCurrentAction,
+		setInspectorCurrentElement
+	} = props
 
-					addLabel(newLabel)
-					setInspectorCurrentElement(newLabel)
-					setEditorCurrentAction(EDITOR_ACTION_INSPECT)
-				}
-			},
-			// {name: 'Export', value: EDITOR_ACTION_EXPORT},
-			// {name: 'Import', value: EDITOR_ACTION_IMPORT},
-		]
+	const options = [
+		{
+			name: 'Inspect', 
+			value: EDITOR_ACTION_INSPECT
+		},
+		{
+			name: 'Add node', 
+			value: EDITOR_ACTION_ADD_NODE
+		},
+		{
+			name: 'Add connection',
+			value: EDITOR_ACTION_ADD_CONNECTION
+		},
+		{
+			name: 'Add label', 
+			value: EDITOR_ACTION_ADD_LABEL, 
+			cb: () => {
+				const newLabel = new Label(uniqid(), 'LAB')
 
-		return (
-			<div className="Navigation">
-				{options.map(({name, value, cb}, key) => (
-					<span
-						key={key}
-						className={classNames(
-							'Navigation__option',
-							{'Navigation__option_hovered': (currentAction === value)}
-						)}
-						onClick={(cb && cb.bind(this)) || setEditorCurrentAction.bind(this, value)}
-					>
-						{name}
-					</span> 	
-				))}
-			</div>
-		)
-	}
-})
+				addLabel(newLabel)
+				setInspectorCurrentElement(newLabel)
+				setEditorCurrentAction(EDITOR_ACTION_INSPECT)
+			}
+		},
+		// {name: 'Export', value: EDITOR_ACTION_EXPORT},
+		// {name: 'Import', value: EDITOR_ACTION_IMPORT},
+	]
+
+	return (
+		<div className="Navigation">
+			{options.map(({name, value, cb}, key) => (
+				<span
+					key={key}
+					className={classNames(
+						'Navigation__option',
+						{'Navigation__option_hovered': (currentAction === value)}
+					)}
+					onClick={(cb && cb.bind(this)) || setEditorCurrentAction.bind(this, value)}
+				>
+					{name}
+				</span> 	
+			))}
+		</div>
+	)
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

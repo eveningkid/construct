@@ -1,6 +1,7 @@
 import React, {createClass} from 'react'
 import _ from 'underscore'
 import {connect} from 'react-redux'
+import {Node} from '../../elements'
 
 import {
 	editNode,
@@ -8,8 +9,6 @@ import {
 	setInspectorCurrentElement,
 	removeConnection,
 } from '../../actions'
-
-import {Node} from '../../elements'
 
 const mapStateToProps = (state) => {
 	return {
@@ -28,7 +27,12 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+// Represent the inspector's node form (when a node is inspected).
 const InspectorNodeForm = createClass({
+	/**
+	 * Handle each node's name modification.
+	 * @param {Event} event - Event instance.
+	 */
 	handleNameChange(event) {
 		const {nodes, node} = this.props
 		const nodeName = event.target.value
@@ -39,6 +43,10 @@ const InspectorNodeForm = createClass({
 		this.props.editNode(nodeOriginalIndex, node)
 	},
 
+	/**
+	 * Handle when the given node is removed.
+	 * @param {Event} event - Event instance.
+	 */ 
 	handleRemoveNode(event) {
 		const {connections, node} = this.props
 
@@ -52,6 +60,10 @@ const InspectorNodeForm = createClass({
 		this.props.setInspectorCurrentElement(null)
 	},
 
+	/**
+	 * Handle when the items' type has been changed.
+	 * @param {Event} event - Event instance.
+	 */
 	handleItemsTypeChange(event) {
 		const {nodes, node} = this.props
 		const nodeItemsType = event.target.value
@@ -62,28 +74,36 @@ const InspectorNodeForm = createClass({
 		this.props.editNode(nodeOriginalIndex, node)
 	},
 
+	/**
+	 * Handle when a node's label is being removed.
+	 * @param {Label} label - Label instance to remove.
+	 */
+	handleRemoveLabel(label) {
+		const {
+			node, 
+			nodes
+		} = this.props
+
+		const nodeOriginalIndex = _.findIndex(nodes, node)
+		const nodeLabels = node.getLabels()
+		const labelIndex = nodeLabels.indexOf(label.id)
+		
+		nodeLabels.splice(labelIndex, 1)
+		
+		node.setLabels(nodeLabels)
+
+		this.props.editNode(nodeOriginalIndex, node)
+	},
+
 	renderLabel(labelID, key) {
-		const {labels, node, nodes} = this.props
-
-		const handleRemoveLabel = (label) => {
-			const nodeOriginalIndex = _.findIndex(nodes, node)
-			const nodeLabels = node.getLabels()
-			const labelIndex = nodeLabels.indexOf(label.id)
-			
-			nodeLabels.splice(labelIndex, 1)
-			
-			node.setLabels(nodeLabels)
-
-			this.props.editNode(nodeOriginalIndex, node)
-		}
-
+		const {labels} = this.props
 		const label = _.findWhere(labels, {id: labelID})
 
 		return (
 			<li key={key}>
 				{label.name}
 
-				<button onClick={handleRemoveLabel.bind(this, label)}>
+				<button onClick={this.handleRemoveLabel.bind(this, label)}>
 					X
 				</button>
 			</li>

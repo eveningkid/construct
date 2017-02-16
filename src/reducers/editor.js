@@ -1,6 +1,4 @@
-import {
-	SET_EDITOR_CURRENT_ACTION,
-} from '../actions/actionTypes'
+import {SET_EDITOR_CURRENT_ACTION} from '../actions/actionTypes'
 
 const initialState = {
 	currentAction: 'inspect',
@@ -9,9 +7,10 @@ const initialState = {
 const editor = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_EDITOR_CURRENT_ACTION:
-			return Object.assign({}, state, {
+			return {
+				...state,
 				currentAction: action.action,
-			})
+			}
 
 		default:
 			return state

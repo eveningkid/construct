@@ -1,6 +1,7 @@
 import React, {createClass} from 'react'
 import _ from 'underscore'
 import {connect} from 'react-redux'
+import {Node} from '../../elements'
 
 import {
 	editConnection,
@@ -8,9 +9,11 @@ import {
 	setInspectorCurrentElement,
 } from '../../actions'
 
-import {findElement} from '../../utils'
-import {Connection, Node} from '../../elements'
-import {getNameForConnectionElement} from '../../utils'
+import {
+	findElement,
+	getNameForConnectionElement,
+	getReversedConnection,
+} from '../../utils'
 
 const mapStateToProps = (state) => {
 	return {
@@ -28,25 +31,30 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+// Represent the inspector's connection form (when a connection is inspected).
 const InspectorConnectionForm = createClass({
-	getReversedConnection(connection) {
-		return new Connection(connection.id, connection.end, connection.start)
-	},
-
+	/**
+	 * Handle when we try to reverse a connection object.
+	 * @param {Connection} connection - Connection instance to reverse.
+	 */
 	handleReverse(connection) {
 		const connections = this.props.connections
 
 		const originalConnectionIndex = _.findIndex(connections, connection)
-		const reversedConnection = this.getReversedConnection(connection)
+		const reversedConnection = getReversedConnection(connection)
 
 		this.props.editConnection(originalConnectionIndex, reversedConnection)
 		this.props.setInspectorCurrentElement(reversedConnection)
 	},
 
+	/**
+	 * Is the associated connection able to be reversed?
+	 * @return {Boolean}
+	 */
 	ableToReverse() {
 		// TODO: only working for node-node connections, but not node-connection ones
 		const store = this.props
-		const {start, end} = this.getReversedConnection(store.currentElement)
+		const {start, end} = getReversedConnection(store.currentElement)
 
 		// Temporary 'fix' || or is it actually the expected behaviour?
 		if (start.type !== Node.NAME || end.type !== Node.NAME) {
@@ -62,6 +70,10 @@ const InspectorConnectionForm = createClass({
 		return (startElementCoords.x === endElementCoords.x)
 	},
 
+	/**
+	 * Handle when the given connection is removed.
+	 * @param {Connection} connection - Connection instance to remove.
+	 */
 	handleRemove(connection) {
 		const {connections} = this.props
 		const originalConnection = connection

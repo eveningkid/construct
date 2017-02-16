@@ -61,6 +61,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+// Represent the Construct application.
 const App = createClass({
 	getInitialState() {
 		return {
@@ -72,6 +73,9 @@ const App = createClass({
 	 * Check if two nodes can be connected:
 	 * - different IDs
 	 * - origin element is either on the left or down side of the destination element
+	 * @param {Node} origin - Origin node.
+	 * @param {Node} destination - Destination node.
+	 * @return {Boolean}
 	 */
 	canConnect(origin, destination) {
 		const originCoords = origin.getCoords()
@@ -84,7 +88,8 @@ const App = createClass({
 	},
 
 	/**
-	 *
+	 * Handle when a node is clicked.
+	 * @param {Node} node - Clicked Node instance.
 	 */
 	handleClickNode(node) {
 		const selectedNode = this.props.inspectorCurrentElement
@@ -121,7 +126,8 @@ const App = createClass({
 	},
 
 	/**
-	 *
+	 * Handle when a connection is clicked.
+	 * @param {Connection} connection - Clicked Connection instance.
 	 */
 	handleClickConnection(connection) {
 		const selectedNode = this.props.inspectorCurrentElement
@@ -143,7 +149,8 @@ const App = createClass({
 	},
 
 	/**
-	 *
+	 * Handle when we need to save a temporary node.
+	 * @param {Node} node - The Node instance to edit.
 	 */
 	handleSaveNode(node) {
 		const {
@@ -161,10 +168,17 @@ const App = createClass({
 	},
 
 	/**
-	 *
+	 * Handle the graph export.
 	 */
 	handleExport() {
-		const {connections, labels, nodes} = this.props
+		// TODO: This method needs to be done again since now a graph is
+		// more than a list of connections, labels and nodes.
+		const {
+			connections, 
+			labels, 
+			nodes,
+		} = this.props
+
 		const exportation = {
 			connections,
 			labels,
@@ -175,17 +189,25 @@ const App = createClass({
 	},
 
 	/**
-	 * 
+	 * Handle a graph import.
 	 */
 	handleImport(json) {
+		// TODO: As same as the .handleExport method, this one has to be
+		// done again as well.
 		const parsed = JSON.parse(json)
-		const {connections, labels, nodes} = parsed
+		
+		const {
+			connections, 
+			labels, 
+			nodes,
+		} = parsed
 
 		this.setState({connections, labels, nodes})
 	},
 
 	/**
-	 * 
+	 * Inspect the given element.
+	 * @param {Mixed} element - The element instance to inspect.
 	 */
 	inspectElement(element) {
 		this.props.setInspectorCurrentElement(element)
@@ -217,6 +239,7 @@ const App = createClass({
 				y={y}
 			>
 				<Circle
+					// Node
 					width={NODE_CIRCLE_RADIUS} 
 					height={NODE_CIRCLE_RADIUS}
 					fill={fill}
@@ -225,6 +248,7 @@ const App = createClass({
 				/>
 
 				<Text
+					// Node's name
 					text={node.name}
 					offsetX={10}
 					offsetY={-30}
@@ -233,7 +257,12 @@ const App = createClass({
 		)
 	},
 
-	// Calculate coordinates for a given type and element
+	/**
+	 * Calculate coordinates for a given type and element.
+	 * @param {String} type - What kind of element we're dealing with (node or connection).
+	 * @param {Mixed} element - Associated element instance.
+	 * @return {Object{x, y}} Coordinates
+	 */
 	calculcateCoordinates(type, element) {
 		if (type === 'node') {
 			// Node
@@ -252,6 +281,12 @@ const App = createClass({
 		}
 	},
 
+	/**
+	 * Specifically calculate coordinates for a given Connection instance.
+	 * We need to retrieve both start and end nodes that the connection represents.
+	 * @param {Connection} connection - Connection instance.
+	 * @return {Object{start, end}} Coordinates
+	 */
 	computeCoordinatesForConnection(connection) {
 		const startType = connection.start.type
 		const startId = connection.start.id
@@ -299,6 +334,11 @@ const App = createClass({
 		const surfaceWidth = window.innerWidth - ElementsList.WIDTH
 		const surfaceHeight = window.innerHeight - 60
 
+		const {
+			connections,
+			nodes,
+		} = this.props
+
 		return (
 			<div>
 				<Navigation />
@@ -315,8 +355,8 @@ const App = createClass({
 					<Layer>
 						<Grid />
 
-						{this.props.nodes.map(this.renderNode)}
-						{this.props.connections.map(this.renderConnection)}
+						{nodes.map(this.renderNode)}
+						{connections.map(this.renderConnection)}
 					</Layer>
 				</Stage>
 
@@ -330,4 +370,4 @@ App.NODE_FILL_COLOR_NORMAL = '#ccc'
 App.NODE_FILL_COLOR_TEMPORARY = '#eee'
 App.NODE_FILL_COLOR_ITEMS_TYPE_FORMATIVE = '#666'
 
-export const Application = connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

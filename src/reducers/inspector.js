@@ -1,6 +1,4 @@
-import {
-	SET_INSPECTOR_CURRENT_ELEMENT,
-} from '../actions/actionTypes'
+import {SET_INSPECTOR_CURRENT_ELEMENT} from '../actions/actionTypes'
 
 const initialState = {
 	currentElement: null,
@@ -9,9 +7,10 @@ const initialState = {
 const inspector = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_INSPECTOR_CURRENT_ELEMENT:
-			return Object.assign({}, state, {
+			return {
+				...state,
 				currentElement: action.element,
-			})
+			}
 
 		default:
 			return state

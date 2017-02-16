@@ -4,9 +4,9 @@ class Connection {
 
 	/**
 	 * Create a connection.
-	 * @param {string} id - Connection ID.
-	 * @param {number} start - Starting node ID.
-	 * @param {number} end - Ending node ID.
+	 * @param {String} id - Connection ID.
+	 * @param {Object{type, id}} start - Starting node.
+	 * @param {Object{type, id}} end - Ending node.
 	 */
 	constructor(id, start, end) {
 		this.id = id
